@@ -1,10 +1,13 @@
 import { HttpPostParams } from '../../../data/protocols/http/http-post-client';
 import axios from 'axios'
 import { AuthenticationParams } from '../../../domain/usecases/authentication';
+import { HttpResponse } from '../../../data/protocols/http/http-response';
+import { AccountModel } from '../../../domain/models/account-model';
 
 export default class AxiosHttpClient {
 
-  async post(params: HttpPostParams<AuthenticationParams>): Promise<void> {
-    await axios.post(params.url, params.body)
+  async post(params: HttpPostParams<AuthenticationParams>): Promise<HttpResponse<AccountModel>> {
+    const response = await axios.post(params.url, params.body)
+    return {statusCode: response.status, body: response.data}
   }
 }
